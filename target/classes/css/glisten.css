@@ -1,0 +1,17 @@
+.root {
+    -fx-font-family: "Roboto", "Arial", sans-serif;
+    -fx-background-color: #ffffff;
+}
+
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+.bottom-navigation-button {
+    -fx-background-color: #f0f0f0;
+}
+
+.icon {
+    -fx-fill: #0078d7;
+}

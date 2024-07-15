@@ -10,6 +10,7 @@ module kaminsky.demo {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires com.fasterxml.jackson.databind;
 
     exports service;
     opens service to javafx.fxml;
