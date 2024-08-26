@@ -1,14 +1,28 @@
 package entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "node__body")
+@SecondaryTable(name = "node_field_data")
 public class Poem {
+    @Id
+    @Column(name = "entity_id")
     private Integer id;
+    @Column(table = "node_field_data",name = "title")
     private String title;
+    @Lob
+    @Column(name = "body_value")
     private String text;
 
     public Poem(Integer id, String title, String text) {
         this.id = id;
         this.title = title;
         this.text = text;
+    }
+
+    public Poem() {
+
     }
 
     public Integer getId() {

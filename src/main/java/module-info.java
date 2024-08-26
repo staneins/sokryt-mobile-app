@@ -11,6 +11,9 @@ module kaminsky.demo {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires com.fasterxml.jackson.databind;
+    requires spring.context;
+    requires org.hibernate.orm.core;
+    requires jakarta.persistence;
 
     exports service;
     opens service to javafx.fxml;
