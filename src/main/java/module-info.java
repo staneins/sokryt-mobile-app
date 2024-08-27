@@ -14,6 +14,7 @@ module kaminsky.demo {
     requires spring.context;
     requires org.hibernate.orm.core;
     requires jakarta.persistence;
+    requires spring.beans;
 
     exports service;
     opens service to javafx.fxml;

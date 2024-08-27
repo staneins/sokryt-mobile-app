@@ -4,7 +4,7 @@ import entity.Poem;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import service.Logic;
+import service.PoemService;
 
 import java.io.IOException;
 
@@ -12,15 +12,8 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class SokrytController {
 
-    Logic logic;
+    PoemService poemService;
 
-    {
-        try {
-            logic = new Logic();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @FXML
     private Label welcomeText;
