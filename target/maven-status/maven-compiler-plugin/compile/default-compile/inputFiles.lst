@@ -1,3 +1,9 @@
-/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/service/HelloController.java
-/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/controller/HelloApplication.java
+/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/repository/Repo.java
+/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/repository/PoemRepo.java
 /run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/module-info.java
+/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/controller/SokrytController.java
+/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/entity/Poem.java
+/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/controller/SokrytApplication.java
+/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/repository/dbConnection/DBConnection.java
+/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/configuration/AppConfig.java
+/run/media/philipk/68220e73-ac0a-41b6-b3bb-cb3b9497ba49/git/SokrytMobileApp/src/main/java/service/PoemService.java

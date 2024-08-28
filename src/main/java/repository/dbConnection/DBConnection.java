@@ -6,19 +6,20 @@ import org.hibernate.cfg.Configuration;
 
 public class DBConnection {
 
-    private Session session;
+    private SessionFactory sessionFactory;
 
-    public Session getSession(Class someClass) {
-        if (session == null){
-            SessionFactory sessionFactory = new Configuration()
-                    .addAnnotatedClass(someClass)
-                    .buildSessionFactory();
-
-            session = sessionFactory.openSession();
-        }
-
-        return session;
+    public DBConnection() {
+        this.sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
+    public Session getSession() {
+        return sessionFactory.openSession();
+    }
 
+    public void close() {
+        if (sessionFactory != null) {
+            sessionFactory.close();
+        }
+    }
 }
+

@@ -1,12 +1,9 @@
 package service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import entity.Poem;
 import repository.PoemRepo;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class PoemService {
@@ -17,6 +14,9 @@ public class PoemService {
         this.poemRepo = poemRepo;
     }
 
+    public List<Poem> getAllPoems() {
+        return poemRepo.getAll();
+    }
 
     public String getTitle(Long id) {
         Poem poemById = poemRepo.getById(id);

@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import repository.PoemRepo;
+import repository.dbConnection.DBConnection;
+import service.PoemService;
 
 import java.io.IOException;
 
@@ -12,12 +15,24 @@ public class SokrytApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SokrytApplication.class.getResource("/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 640);
-        String gluonCSS = getClass().getResource("/css/glisten.css").toExternalForm();
-        scene.getStylesheets().add(gluonCSS);
-        stage.setTitle("Hello!");
+
+        DBConnection dbConnection = new DBConnection();
+
+        PoemRepo poemRepo = new PoemRepo(dbConnection);
+
+        PoemService poemService = new PoemService(poemRepo);
+
+        SokrytController controller = fxmlLoader.getController();
+        controller.setPoemService(poemService);
+
+        controller.printPoemsList();
+
+        stage.setTitle("Sokryt Application");
         stage.setScene(scene);
         stage.show();
     }
+
+
 
     public static void main(String[] args) {
         launch();

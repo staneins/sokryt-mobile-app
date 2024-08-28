@@ -22,7 +22,7 @@ public class AppConfig {
     }
 
     @Bean
-    public PoemService getActorService(){
+    public PoemService getPoemService(){
         return new PoemService(getPoemRepo());
     }
 }

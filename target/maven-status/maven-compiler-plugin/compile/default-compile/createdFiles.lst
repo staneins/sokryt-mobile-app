@@ -1,3 +1,9 @@
+controller/SokrytApplication.class
+repository/dbConnection/DBConnection.class
 module-info.class
-controller/HelloApplication.class
-service/HelloController.class
+entity/Poem.class
+configuration/AppConfig.class
+repository/PoemRepo.class
+repository/Repo.class
+controller/SokrytController.class
+service/PoemService.class
