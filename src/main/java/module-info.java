@@ -20,5 +20,5 @@ module kaminsky.demo {
     exports controller;
     opens controller to javafx.fxml;
 
-    opens entity to org.hibernate.orm.core;
+    opens entity to org.hibernate.orm.core, javafx.base;
 }
