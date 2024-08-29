@@ -19,7 +19,7 @@ public class PoemRepo implements Repo<Poem> {
     public Poem getById(Long id) {
         try (Session session = dbConnection.getSession()) {
             Query<Poem> query = session
-                    .createQuery("select sup from Poem sup where id = :poemId", Poem.class)
+                    .createQuery("select p from Poem p where p.id = :poemId", Poem.class)
                     .setParameter("poemId", id);
 
             return query.getSingleResult();

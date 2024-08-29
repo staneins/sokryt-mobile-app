@@ -9,7 +9,6 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SokrytController" prefHeight="600.0" prefWidth="335.0">
     <top>
         <TitledPane animated="false" text="Sokryt.ru" BorderPane.alignment="CENTER">
-            <!-- Добавьте содержимое TitledPane, если необходимо -->
         </TitledPane>
     </top>
     <bottom>

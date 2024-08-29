@@ -16,17 +16,19 @@ public class SokrytApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(SokrytApplication.class.getResource("/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 640);
 
+        // Инициализация зависимостей
         DBConnection dbConnection = new DBConnection();
-
         PoemRepo poemRepo = new PoemRepo(dbConnection);
-
         PoemService poemService = new PoemService(poemRepo);
 
+        // Получение контроллера и установка зависимостей
         SokrytController controller = fxmlLoader.getController();
         controller.setPoemService(poemService);
 
+        // Вызов метода после установки зависимостей
         controller.printPoemsList();
 
+        // Установка сцены и показ окна
         stage.setTitle("Sokryt Application");
         stage.setScene(scene);
         stage.show();

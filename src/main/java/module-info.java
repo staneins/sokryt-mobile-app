@@ -12,13 +12,13 @@ module kaminsky.demo {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires com.fasterxml.jackson.databind;
-    requires spring.context;
     requires org.hibernate.orm.core;
     requires jakarta.persistence;
-    requires spring.beans;
 
     exports service;
     opens service to javafx.fxml;
     exports controller;
     opens controller to javafx.fxml;
+
+    opens entity to org.hibernate.orm.core;
 }
