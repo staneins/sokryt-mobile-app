@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "node__body")
-@SecondaryTable(name = "node_field_data")
+@SecondaryTable(name = "node_field_data", pkJoinColumns = @PrimaryKeyJoinColumn(name = "nid", referencedColumnName = "entity_id") )
 public class Poem {
     @Id
     @Column(name = "entity_id")
