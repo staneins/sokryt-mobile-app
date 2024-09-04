@@ -14,6 +14,8 @@ public class Poem {
     @Lob
     @Column(name = "body_value")
     private String text;
+    @Column(name = "bundle")
+    private String bundle;
 
     public Poem(Integer id, String title, String text) {
         this.id = id;
@@ -23,6 +25,14 @@ public class Poem {
 
     public Poem() {
 
+    }
+
+    public String getBundle() {
+        return bundle;
+    }
+
+    public void setBundle(String bundle) {
+        this.bundle = bundle;
     }
 
     public Integer getId() {

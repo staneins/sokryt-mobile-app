@@ -15,7 +15,7 @@
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <items>
                 <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" text="Cancel"/>
-                <Pagination pageCount="8" prefHeight="0.0" prefWidth="200.0"/>
+                <Pagination fx:id="pagination" pageCount="8" prefHeight="0.0" prefWidth="200.0"/>
             </items>
         </ToolBar>
     </bottom>
