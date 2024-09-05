@@ -10,6 +10,7 @@ import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import service.PoemService;
 
 import java.util.List;
@@ -17,9 +18,6 @@ import java.util.List;
 public class SokrytController {
 
     private PoemService poemService;
-
-    @FXML
-    private Label welcomeText;
 
     @FXML
     private TableView<Poem> table;
@@ -42,13 +40,18 @@ public class SokrytController {
     @FXML
     public void initialize() {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+//        ObservableList<Poem> testData = FXCollections.observableArrayList(
+//                new Poem(1, "Тестовый Стих 1", "Тестовый текст 1"),
+//                new Poem(2, "Тестовый Стих 2", "Тестовый текст 2")
+//        );
+//
+//        table.setItems(testData);
     }
 
     protected void printPoemsList() {
         List<Poem> poems = poemService.getAllPoems();
 
         if (poems.isEmpty()) {
-            welcomeText.setText("Нет стихов для отображения.");
             table.setVisible(false);
             pagination.setVisible(false);
             return;
@@ -60,13 +63,9 @@ public class SokrytController {
         int pageCount = (int) Math.ceil((double) poems.size() / POEMS_PER_PAGE);
         pagination.setPageCount(pageCount);
 
-        Label pageInfo = new Label();
-
         pagination.setPageFactory(pageIndex -> {
             int fromIndex = pageIndex * POEMS_PER_PAGE;
             int toIndex = Math.min(fromIndex + POEMS_PER_PAGE, poems.size());
-
-            pageInfo.setText("Страница: " + (pageIndex + 1) + " (стихи " + fromIndex + "-" + toIndex + ")");
 
             System.out.println("Показываем стихи с " + fromIndex + " по " + toIndex);
 
@@ -77,12 +76,21 @@ public class SokrytController {
             List<Poem> poemsSubList = poems.subList(fromIndex, toIndex);
             ObservableList<Poem> poemObservableList = FXCollections.observableArrayList(poemsSubList);
 
+            // Устанавливаем данные в таблицу
             table.setItems(poemObservableList);
 
-
+            // Принудительное обновление таблицы
             table.refresh();
+            for (Poem poem : poemObservableList) {
+                System.out.println("Стих в таблице: " + poem.getTitle());
+            }
+
+            // Отладочная информация
+            System.out.println("TableView visible: " + table.isVisible());
+            System.out.println("Number of poems in this page: " + poemObservableList.size());
 
             return table;
         });
+    }
 }
-}
+
