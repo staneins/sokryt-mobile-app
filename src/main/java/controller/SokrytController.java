@@ -42,33 +42,47 @@ public class SokrytController {
     @FXML
     public void initialize() {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-
-        pagination.setPageFactory(this::createPage);
-    }
-
-    private Node createPage(int pageIndex) {
-        int fromIndex = pageIndex * POEMS_PER_PAGE;
-        int toIndex = Math.min(fromIndex + POEMS_PER_PAGE, poemService.getAllPoems().size());
-        List<Poem> poemsSubList = poemService.getAllPoems().subList(fromIndex, toIndex);
-
-        ObservableList<Poem> poemObservableList = FXCollections.observableArrayList(poemsSubList);
-        table.setItems(poemObservableList);
-        return table;
     }
 
     protected void printPoemsList() {
         List<Poem> poems = poemService.getAllPoems();
+
+        if (poems.isEmpty()) {
+            welcomeText.setText("Нет стихов для отображения.");
+            table.setVisible(false);
+            pagination.setVisible(false);
+            return;
+        }
+
+        table.setVisible(true);
+        pagination.setVisible(true);
+
         int pageCount = (int) Math.ceil((double) poems.size() / POEMS_PER_PAGE);
         pagination.setPageCount(pageCount);
+
+        Label pageInfo = new Label();
 
         pagination.setPageFactory(pageIndex -> {
             int fromIndex = pageIndex * POEMS_PER_PAGE;
             int toIndex = Math.min(fromIndex + POEMS_PER_PAGE, poems.size());
-            List<Poem> poemsSubList = poems.subList(fromIndex, toIndex);
 
-        ObservableList<Poem> poemObservableList = FXCollections.observableArrayList(poemsSubList);
-        table.setItems(poemObservableList);
+            pageInfo.setText("Страница: " + (pageIndex + 1) + " (стихи " + fromIndex + "-" + toIndex + ")");
+
+            System.out.println("Показываем стихи с " + fromIndex + " по " + toIndex);
+
+            if (fromIndex >= poems.size()) {
+                return new Label("Страница пуста");
+            }
+
+            List<Poem> poemsSubList = poems.subList(fromIndex, toIndex);
+            ObservableList<Poem> poemObservableList = FXCollections.observableArrayList(poemsSubList);
+
+            table.setItems(poemObservableList);
+
+
+            table.refresh();
+
             return table;
-    });
+        });
 }
 }

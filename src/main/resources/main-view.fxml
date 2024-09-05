@@ -8,19 +8,13 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SokrytController" prefHeight="600.0" prefWidth="335.0">
     <top>
-        <TitledPane animated="false" text="Sokryt.ru" BorderPane.alignment="CENTER">
-        </TitledPane>
+        <TitledPane animated="false" text="Sokryt.ru" BorderPane.alignment="CENTER"/>
     </top>
     <bottom>
-        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <items>
-                <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" text="Cancel"/>
-                <Pagination fx:id="pagination" pageCount="8" prefHeight="0.0" prefWidth="200.0"/>
-            </items>
-        </ToolBar>
+        <Pagination fx:id="pagination" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
     </bottom>
     <center>
-        <TableView fx:id="table" prefHeight="200.0" prefWidth="334.0" BorderPane.alignment="CENTER">
+        <TableView fx:id="table" prefHeight="400.0" prefWidth="334.0" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="titleColumn" prefWidth="334.0" text="Духовные стихи"/>
             </columns>
