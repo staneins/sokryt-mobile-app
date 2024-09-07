@@ -4,30 +4,49 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.TitledPane?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SokrytController" prefHeight="600.0" prefWidth="335.0">
-    <top>
-        <TitledPane animated="false" text="Sokryt.ru" BorderPane.alignment="CENTER"/>
-    </top>
-    <center>
-        <TableView fx:id="table" minHeight="200.0" minWidth="300.0" BorderPane.alignment="CENTER">
-            <columns>
-                <TableColumn fx:id="titleColumn" text="Духовные стихи" minWidth="150.0"/>
-            </columns>
-        </TableView>
-    </center>
-    <bottom>
-        <Pagination fx:id="pagination" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
-    </bottom>
-</BorderPane>
+<!--<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SokrytController" prefHeight="600.0" prefWidth="335.0">-->
+<!--    <top>-->
+<!--        <TitledPane animated="false" text="Sokryt.ru" BorderPane.alignment="CENTER"/>-->
+<!--    </top>-->
+<!--    <center>-->
+<!--        <TableView fx:id="table" minHeight="200.0" minWidth="300.0" BorderPane.alignment="CENTER">-->
+<!--            <columns>-->
+<!--                <TableColumn fx:id="titleColumn" text="Духовные стихи" minWidth="150.0"/>-->
+<!--            </columns>-->
+<!--        </TableView>-->
+<!--    </center>-->
+<!--    <bottom>-->
+<!--        <Pagination fx:id="pagination" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>-->
+<!--    </bottom>-->
+<!--</BorderPane>-->
 
 
-<!--<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SokrytController" spacing="10.0" fillWidth="true">-->
-<!--<TitledPane animated="false" text="Sokryt.ru"/>-->
-<!--<TableView fx:id="table" VBox.vgrow="ALWAYS" minHeight="200.0" minWidth="300.0">-->
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SokrytController" spacing="10.0" fillWidth="true">
+    <TitledPane animated="false" text="Sokryt.ru"/>
+
+    <!-- Устанавливаем таблицу, чтобы занимала всё доступное пространство -->
+    <TableView fx:id="table" VBox.vgrow="ALWAYS" minHeight="560.0" prefHeight="600.0" minWidth="300.0">
+    <columns>
+            <TableColumn fx:id="titleColumn" text="Духовные стихи" minWidth="150.0"/>
+        </columns>
+    </TableView>
+
+    <!-- Пагинация внизу -->
+    <Pagination fx:id="pagination" prefHeight="50.0" prefWidth="200.0"/>
+</VBox>
+
+
+<!--<?import javafx.scene.layout.AnchorPane?>-->
+<!--<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SokrytController">-->
+<!--<TitledPane text="Sokryt.ru" layoutX="10" layoutY="10" prefHeight="50.0" prefWidth="335.0"/>-->
+
+<!--<TableView fx:id="table" layoutX="10" layoutY="60" prefHeight="400.0" prefWidth="335.0">-->
 <!--    <columns>-->
 <!--        <TableColumn fx:id="titleColumn" text="Духовные стихи" minWidth="150.0"/>-->
 <!--    </columns>-->
 <!--</TableView>-->
-<!--<Pagination fx:id="pagination" prefHeight="50.0" prefWidth="200.0"/>-->
-<!--</VBox>-->
+
+<!--<Pagination fx:id="pagination" layoutX="10" layoutY="470" prefHeight="50.0" prefWidth="200.0"/>-->
+<!--</AnchorPane>-->
 

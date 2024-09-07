@@ -57,8 +57,8 @@ public class SokrytController {
             return;
         }
 
-        table.setVisible(true);
-        pagination.setVisible(true);
+//        table.setVisible(true);
+//        pagination.setVisible(true);
 
         int pageCount = (int) Math.ceil((double) poems.size() / POEMS_PER_PAGE);
         pagination.setPageCount(pageCount);
@@ -81,11 +81,13 @@ public class SokrytController {
 
             // Принудительное обновление таблицы
             table.refresh();
+//            table.requestLayout();
+//            table.setMinHeight(540);
+
+            // Отладочная информация
             for (Poem poem : poemObservableList) {
                 System.out.println("Стих в таблице: " + poem.getTitle());
             }
-
-            // Отладочная информация
             System.out.println("TableView visible: " + table.isVisible());
             System.out.println("Number of poems in this page: " + poemObservableList.size());
 
