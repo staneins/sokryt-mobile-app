@@ -6,6 +6,7 @@ import com.example.sokrytmobileapp.repository.PoemRepository;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class PoemService {
     private final PoemRepository poemRepository;
@@ -15,9 +16,7 @@ public class PoemService {
     }
 
     public LiveData<List<Poem>> getAllPoems() {
-        MutableLiveData<List<Poem>> poemsLiveData = new MutableLiveData<>();
-        poemsLiveData.setValue(poemRepository.getAllPoems());
-        return poemsLiveData;
+        return poemRepository.getAllPoems();
     }
 
     public void insertPoem(Poem poem) {

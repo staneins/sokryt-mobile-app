@@ -6,21 +6,23 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "poems")
 public class Poem {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
+    @PrimaryKey
+    @ColumnInfo(name = "nid")
+    public Integer nid;
+
+    @ColumnInfo(name = "revision_uid")
+    public Integer revisionUid;
 
     @ColumnInfo(name = "title")
     public String title;
 
-    @ColumnInfo(name = "text")
-    public String text;
+    @ColumnInfo(name = "body")
+    public String body;
 
-    @ColumnInfo(name = "bundle")
-    public String bundle = "poem";
-
-    public Poem(String title, String text) {
+    public Poem(int nid, int revisionUid, String title, String body) {
+        this.nid = nid;
+        this.revisionUid = revisionUid;
         this.title = title;
-        this.text = text;
-        this.bundle = "poem"; // удалить, в новой модели не имеет смысла
+        this.body = body;
     }
 }

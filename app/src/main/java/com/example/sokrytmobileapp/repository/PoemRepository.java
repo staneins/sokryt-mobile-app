@@ -1,6 +1,7 @@
 package com.example.sokrytmobileapp.repository;
 
 import android.app.Application;
+import androidx.lifecycle.LiveData;
 import com.example.sokrytmobileapp.data.Poem;
 import com.example.sokrytmobileapp.data.PoemDao;
 import com.example.sokrytmobileapp.data.PoemDatabase;
@@ -8,6 +9,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import android.content.res.AssetManager;
+import okhttp3.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,52 +22,60 @@ import java.util.concurrent.Executors;
 
 public class PoemRepository {
     private final PoemDao poemDao;
-    private final ExecutorService executorService;
+    private final LiveData<List<Poem>> allPoems;
 
     public PoemRepository(Application application) {
         PoemDatabase db = PoemDatabase.getDatabase(application);
         poemDao = db.poemDao();
-        executorService = Executors.newSingleThreadExecutor();
+        allPoems = poemDao.getAllPoemsLiveData();
     }
 
-    public List<Poem> getAllPoems() {
-        return poemDao.getAllPoems();
+    public LiveData<List<Poem>> getAllPoems() {
+        return allPoems;
     }
 
     public void insert(final Poem poem) {
-        executorService.execute(() -> poemDao.insertPoem(poem));
+        Executors.newSingleThreadExecutor().execute(() -> poemDao.insertPoem(poem));
     }
 
-    public void loadPoemsFromJson(Context context, PoemRepository poemRepository) {
-        String jsonString = loadJsonFromAssets(context);
+    private void loadPoems(PoemRepository poemRepository) {
+        String url = "https://sokryt.ru/json/stihi";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String jsonString = response.body().string();
+                    loadPoemsFromJson(jsonString, poemRepository);
+                }
+            }
+        });
+    }
+
+    public void loadPoemsFromJson(String jsonString, PoemRepository poemRepository) {
         if (jsonString != null) {
-            // парсинг json
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Poem>>() {}.getType();
-            List<Poem> poems = gson.fromJson(jsonString, listType);
+            List<PoemJson> poemJsons = gson.fromJson(jsonString, listType);
 
-            // добавление стихов в БД
-            for (Poem poemJson : poems) {
-                Poem poem = new Poem(poemJson.title, poemJson.text);
+            for (PoemJson poemJson : poemJsons) {
+                Integer nid = poemJson.getNid();
+                Integer revisionUid = poemJson.getRevisionUid();
+                String title = poemJson.getTitle();
+                String body = poemJson.getBody();
+                Poem poem = new Poem(nid, revisionUid, title, body);
                 poemRepository.insert(poem);
             }
         }
-    }
-
-    //парсинг json файла из папки Assets в телефоне
-    private String loadJsonFromAssets(Context context) {
-        StringBuilder jsonBuilder = new StringBuilder();
-        AssetManager assetManager = context.getAssets();
-        try (InputStream inputStream = assetManager.open("poems.json");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonBuilder.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonBuilder.toString();
     }
 }

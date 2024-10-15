@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder> {
 
-    private final List<Poem> poems;
+    private List<Poem> poems;
 
     public PoemAdapter(List<Poem> poems) {
         this.poems = poems;
@@ -31,7 +31,7 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
     public void onBindViewHolder(@NonNull PoemViewHolder holder, int position) {
         Poem poem = poems.get(position);
         holder.title.setText(poem.title);
-        holder.text.setText(poem.text);
+        holder.body.setText(poem.body);
     }
 
     @Override
@@ -39,14 +39,19 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
         return poems.size();
     }
 
+    public void updatePoems(List<Poem> newPoems) {
+        this.poems = newPoems;
+        notifyDataSetChanged();
+    }
+
     static class PoemViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
-        private final TextView text;
+        private final TextView body;
 
         public PoemViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.poemTitle);
-            text = itemView.findViewById(R.id.poemText);
+            body = itemView.findViewById(R.id.poemBody);
         }
     }
 }
