@@ -31,7 +31,7 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
     public void onBindViewHolder(@NonNull PoemViewHolder holder, int position) {
         Poem poem = poems.get(position);
         holder.title.setText(poem.title);
-        holder.body.setText(poem.body);
+//        holder.body.setText(poem.body);
     }
 
     @Override
@@ -46,12 +46,19 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
 
     static class PoemViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
-        private final TextView body;
+//        private final TextView body;
 
         public PoemViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.poemTitle);
-            body = itemView.findViewById(R.id.poemBody);
+//            body = itemView.findViewById(R.id.poemBody);
         }
     }
+
+    public void addPoems(List<Poem> newPoems) {
+        int initialSize = this.poems.size();
+        this.poems.addAll(newPoems);
+        notifyItemRangeInserted(initialSize, newPoems.size());
+    }
+
 }

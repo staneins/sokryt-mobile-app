@@ -1,11 +1,20 @@
 package com.example.sokrytmobileapp.repository;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class PoemJson {
+    @SerializedName("nid")
     private List<ValueWrapper<Integer>> nid;
+
+    @SerializedName("revision_uid")
     private List<ValueWrapper<Integer>> revision_uid;
+
+    @SerializedName("title")
     private List<ValueWrapper<String>> title;
+
+    @SerializedName("body")
     private List<ValueWrapper<String>> body;
 
     public Integer getNid() {

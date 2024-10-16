@@ -9,7 +9,7 @@ import java.util.List;
 @Dao
 public interface PoemDao {
 
-    @Query("SELECT * FROM poems ORDER BY title")
+    @Query("SELECT * FROM poems ORDER BY title LIMIT 30")
     LiveData<List<Poem>> getAllPoemsLiveData();
 
     @Insert

@@ -6,7 +6,9 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "poems")
 public class Poem {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
     @ColumnInfo(name = "nid")
     public Integer nid;
 
@@ -19,7 +21,7 @@ public class Poem {
     @ColumnInfo(name = "body")
     public String body;
 
-    public Poem(int nid, int revisionUid, String title, String body) {
+    public Poem(Integer nid, Integer revisionUid, String title, String body) {
         this.nid = nid;
         this.revisionUid = revisionUid;
         this.title = title;
