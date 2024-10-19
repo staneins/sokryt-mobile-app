@@ -2,6 +2,7 @@ package com.example.sokrytmobileapp.repository;
 
 import android.app.Application;
 import android.util.Log;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import com.example.sokrytmobileapp.data.Poem;
 import com.example.sokrytmobileapp.data.PoemDao;
@@ -38,6 +39,12 @@ public class PoemRepository {
     }
 
     public void loadPoems() {
+
+        if (allPoems.getValue() != null && !allPoems.getValue().isEmpty()) {
+            Log.d(TAG, "Стихи уже загружены из базы данных");
+            return;
+        }
+
         String url = "https://sokryt.ru/json/stihi";
         OkHttpClient client = new OkHttpClient();
 
@@ -80,23 +87,20 @@ public class PoemRepository {
                     Integer revisionUid = poemJson.getRevisionUid();
                     String title = poemJson.getTitle();
                     String body = poemJson.getBody();
+                    if (nid != null && title != null && body != null) {
 
-                    poemDao.getPoemByUid(nid, revisionUid).observe(this, poem -> {
-                        if (poem == null) {
-
-                            Log.d("PoemViewModel", "Стих не найден");
-                        } else {
-
-                            Log.d("PoemViewModel", "Стих найден: ");
+                        if (body != null) {
+                            Log.d(TAG, "Заголовок стиха: " + title + ", Длина текста: " + body.length());
                         }
-                    });
 
-                    if (body != null) {
-                        Log.d(TAG, "Заголовок стиха: " + title + ", Длина текста: " + body.length());
+                        if (!isPoemExistInDatabase(nid, revisionUid)) {
+                            Poem poem = new Poem(nid, revisionUid, title, body);
+                            insert(poem);
+                            Log.d(TAG, "Стих загружен в базу данных: " + nid + " " + title);
+                        }
+                    } else {
+                        Log.w(TAG, "Пропущены обязательные поля: nid=" + nid + ", revisionUid=" + revisionUid);
                     }
-
-                    Poem poem = new Poem(nid, revisionUid, title, body);
-                    insert(poem);
                 }
 
             } catch (Exception e) {
@@ -104,6 +108,23 @@ public class PoemRepository {
             }
         } else {
             Log.e(TAG, "JSON строка пуста или null");
+        }
+    }
+
+    public boolean isPoemExistInDatabase(Integer nid, Integer revisionUid) {
+        LiveData<Poem> poem;
+        if (revisionUid != null) {
+            poem = poemDao.getPoemByUid(nid, revisionUid);
+        } else {
+            poem = poemDao.getPoemWithNullRevisionUid(nid);
+        }
+
+        if (poem != null) {
+            Log.d(TAG, "Стих найден: " + nid);
+            return true;
+        } else {
+            Log.d(TAG, "Стих не найден: " + nid);
+            return false;
         }
     }
 }

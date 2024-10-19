@@ -8,23 +8,28 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sokrytmobileapp.R;
+import com.example.sokrytmobileapp.data.Poem;
+import com.example.sokrytmobileapp.repository.PoemRepository;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class PoemListFragment extends Fragment {
     private RecyclerView recyclerView;
     private PoemAdapter poemAdapter;
-    private PoemViewModel poemViewModel;
+    private PoemRepository poemRepository;
     private boolean isLoading = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_poem_list, container, false);
 
-        poemViewModel = new ViewModelProvider(this).get(PoemViewModel.class);
+        poemRepository = new PoemRepository(requireActivity().getApplication());
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -39,21 +44,29 @@ public class PoemListFragment extends Fragment {
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (!isLoading && layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == poemAdapter.getItemCount() - 1) {
                     isLoading = true;
-                    //TODO
+                    poemRepository.loadPoems();
                 }
             }
         });
 
-        poemViewModel.getAllPoems().observe(getViewLifecycleOwner(), poems -> {
-            if (poems != null && !poems.isEmpty()) {
-                poemAdapter.addPoems(poems);
-                Log.d("PoemListFragment", "Загружено " + poems.size() + " стихов");
-                isLoading = false;
-            } else {
-                Toast.makeText(getContext(), "Нет доступных стихов", Toast.LENGTH_SHORT).show();
-            }
-        });
+        loadPoems();
 
         return view;
+    }
+
+    private void loadPoems() {
+        LiveData<List<Poem>> poemsLiveData = poemRepository.getAllPoems();
+        poemsLiveData.observe(getViewLifecycleOwner(), this::handlePoemChanges);
+        poemRepository.loadPoems();
+    }
+
+    private void handlePoemChanges(List<Poem> poems) {
+        if (poems != null && !poems.isEmpty()) {
+            poemAdapter.addPoems(poems);
+            Log.d("PoemListFragment", "Загружено " + poems.size() + " стихов");
+            isLoading = false;
+        } else {
+            Toast.makeText(getContext(), "Нет доступных стихов", Toast.LENGTH_SHORT).show();
+        }
     }
 }

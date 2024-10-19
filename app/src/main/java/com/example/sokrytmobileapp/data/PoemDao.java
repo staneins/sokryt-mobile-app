@@ -17,4 +17,8 @@ public interface PoemDao {
 
     @Query("SELECT * FROM poems WHERE nid = :nid AND revision_uid = :uid")
     LiveData<Poem> getPoemByUid(int nid, int uid);
+
+    @Query("SELECT * FROM poems WHERE nid = :nid AND revision_uid IS NULL")
+    LiveData<Poem> getPoemWithNullRevisionUid(int nid);
+
 }
