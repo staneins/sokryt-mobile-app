@@ -20,30 +20,41 @@ import static android.content.ContentValues.TAG;
 
 public class PoemRepository {
     private final PoemDao poemDao;
-    private final LiveData<List<Poem>> allPoems;
-    private final Integer offset = 0;
-    private Integer limit = 30;
+//    private final LiveData<List<Poem>> allPoems;
+//    private final Integer offset = 0;
+//    private Integer limit = 10;
 
     public PoemRepository(Application application) {
         PoemDatabase db = PoemDatabase.getDatabase(application);
         poemDao = db.poemDao();
-        allPoems = poemDao.getAllPoems(offset, limit);
+//        allPoems = poemDao.getAllPoems(offset, limit);
     }
 
-    public LiveData<List<Poem>> getAllPoems() {
-        return allPoems;
+//    public LiveData<List<Poem>> getAllPoems() {
+//        return allPoems;
+//    }
+
+    public LiveData<List<Poem>> getPoemsWithPagination(int offset, int limit) {
+        return poemDao.getAllPoems(offset, limit);
     }
 
     public void insert(final Poem poem) {
-        Executors.newSingleThreadExecutor().execute(() -> poemDao.insertPoem(poem));
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                poemDao.insertPoem(poem);
+                Log.d("PoemRepository", "Стих успешно вставлен: " + poem.title);
+            } catch (Exception e) {
+                Log.e("PoemRepository", "Ошибка при вставке стиха: " + e.getMessage());
+            }
+    });
     }
 
     public void loadPoems() {
 
-        if (allPoems.getValue() != null && !allPoems.getValue().isEmpty()) {
-            Log.d(TAG, "Стихи уже загружены из базы данных");
-            return;
-        }
+//        if (allPoems.getValue() != null && !allPoems.getValue().isEmpty()) {
+//            Log.d(TAG, "Стихи уже загружены из базы данных");
+//            return;
+//        }
 
         String url = "https://sokryt.ru/json/stihi";
         OkHttpClient client = new OkHttpClient();
@@ -96,6 +107,7 @@ public class PoemRepository {
                         if (!isPoemExistInDatabase(nid, revisionUid)) {
                             Poem poem = new Poem(nid, revisionUid, title, body);
                             insert(poem);
+
                             Log.d(TAG, "Стих загружен в базу данных: " + nid + " " + title);
                         }
                     } else {
@@ -112,7 +124,7 @@ public class PoemRepository {
     }
 
     public boolean isPoemExistInDatabase(Integer nid, Integer revisionUid) {
-        LiveData<Poem> poem;
+        Poem poem;
         if (revisionUid != null) {
             poem = poemDao.getPoemByUid(nid, revisionUid);
         } else {

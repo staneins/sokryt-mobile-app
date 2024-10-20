@@ -17,6 +17,16 @@ public class PoemJson {
     @SerializedName("body")
     private List<ValueWrapper<String>> body;
 
+    public PoemJson() {
+    }
+
+    public PoemJson(List<ValueWrapper<Integer>> nid, List<ValueWrapper<Integer>> revision_uid, List<ValueWrapper<String>> title, List<ValueWrapper<String>> body) {
+        this.nid = nid;
+        this.revision_uid = revision_uid;
+        this.title = title;
+        this.body = body;
+    }
+
     public Integer getNid() {
         return nid != null && !nid.isEmpty() ? nid.get(0).getValue() : null;
     }

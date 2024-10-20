@@ -27,4 +27,47 @@ public class Poem {
         this.title = title;
         this.body = body;
     }
+
+    public Poem() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Integer getNid() {
+        return nid;
+    }
+
+    public void setNid(Integer nid) {
+        this.nid = nid;
+    }
+
+    public Integer getRevisionUid() {
+        return revisionUid;
+    }
+
+    public void setRevisionUid(Integer revisionUid) {
+        this.revisionUid = revisionUid;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 }

@@ -24,6 +24,9 @@ public class PoemListFragment extends Fragment {
     private PoemAdapter poemAdapter;
     private PoemRepository poemRepository;
     private boolean isLoading = false;
+    private int limit = 20;
+    private int offset = 0;
+    private boolean allDataLoaded = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,20 +47,30 @@ public class PoemListFragment extends Fragment {
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (!isLoading && layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == poemAdapter.getItemCount() - 1) {
                     isLoading = true;
-                    poemRepository.loadPoems();
+//                    loadPoems();
                 }
             }
         });
-
+//        poemRepository.loadPoems();
         loadPoems();
 
         return view;
     }
 
     private void loadPoems() {
-        LiveData<List<Poem>> poemsLiveData = poemRepository.getAllPoems();
-        poemsLiveData.observe(getViewLifecycleOwner(), this::handlePoemChanges);
-        poemRepository.loadPoems();
+//        LiveData<List<Poem>> poemsLiveData = poemRepository.getAllPoems();
+//        poemsLiveData.observe(getViewLifecycleOwner(), this::handlePoemChanges);
+//        poemRepository.loadPoems();
+
+        poemRepository.getPoemsWithPagination(offset, limit).observe(getViewLifecycleOwner(), poems -> {
+            if (poems != null && !poems.isEmpty()) {
+                poemAdapter.addPoems(poems);
+                offset += poems.size();
+            } else {
+                allDataLoaded = true;
+            }
+            isLoading = false;
+        });
     }
 
     private void handlePoemChanges(List<Poem> poems) {
@@ -70,3 +83,5 @@ public class PoemListFragment extends Fragment {
         }
     }
 }
+
+
