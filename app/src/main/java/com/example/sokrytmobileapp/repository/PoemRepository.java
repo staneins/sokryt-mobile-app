@@ -20,19 +20,11 @@ import static android.content.ContentValues.TAG;
 
 public class PoemRepository {
     private final PoemDao poemDao;
-//    private final LiveData<List<Poem>> allPoems;
-//    private final Integer offset = 0;
-//    private Integer limit = 10;
 
     public PoemRepository(Application application) {
         PoemDatabase db = PoemDatabase.getDatabase(application);
         poemDao = db.poemDao();
-//        allPoems = poemDao.getAllPoems(offset, limit);
     }
-
-//    public LiveData<List<Poem>> getAllPoems() {
-//        return allPoems;
-//    }
 
     public LiveData<List<Poem>> getPoemsWithPagination(int offset, int limit) {
         return poemDao.getAllPoems(offset, limit);

@@ -39,11 +39,6 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
         return poems.size();
     }
 
-//    public void updatePoems(List<Poem> newPoems) {
-//        this.poems = newPoems;
-//        notifyDataSetChanged();
-//    }
-
     static class PoemViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
 //        private final TextView body;
