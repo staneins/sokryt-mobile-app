@@ -5,17 +5,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sokrytmobileapp.R;
 import com.example.sokrytmobileapp.data.Poem;
 
 import java.util.List;
 
-public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder> {
+public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.PoemViewHolder> {
 
     private List<Poem> poems;
 
-    public PoemAdapter(List<Poem> poems) {
+    public TitleAdapter(List<Poem> poems) {
         this.poems = poems;
     }
 
@@ -23,7 +25,7 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
     @Override
     public PoemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.poem_list_item, parent, false);
+                .inflate(R.layout.poem_list_titles, parent, false);
         return new PoemViewHolder(view);
     }
 
@@ -31,7 +33,8 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
     public void onBindViewHolder(@NonNull PoemViewHolder holder, int position) {
         Poem poem = poems.get(position);
         holder.title.setText(poem.title);
-//        holder.body.setText(poem.body);
+
+        setOnTitleClickListener(holder, poem);
     }
 
     @Override
@@ -41,12 +44,10 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
 
     static class PoemViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
-//        private final TextView body;
 
         public PoemViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.poemTitle);
-//            body = itemView.findViewById(R.id.poemBody);
         }
     }
 
@@ -54,6 +55,20 @@ public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder
         int initialSize = this.poems.size();
         this.poems.addAll(newPoems);
         notifyItemRangeInserted(initialSize, newPoems.size());
+    }
+
+    private void setOnTitleClickListener(@NonNull PoemViewHolder holder, Poem poem) {
+        holder.title.setOnClickListener(view -> openPoemBodyFragment(view, poem.body));
+    }
+
+    private void openPoemBodyFragment(View view, String poemBody) {
+        Fragment bodyFragment = BodyFragment.newInstance(poemBody);
+
+        ((FragmentActivity) view.getContext()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, bodyFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
 }

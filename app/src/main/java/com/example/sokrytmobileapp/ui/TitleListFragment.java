@@ -16,9 +16,9 @@ import com.example.sokrytmobileapp.repository.PoemRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PoemListFragment extends Fragment {
+public class TitleListFragment extends Fragment {
     private RecyclerView recyclerView;
-    private PoemAdapter poemAdapter;
+    private TitleAdapter poemAdapter;
     private PoemRepository poemRepository;
     private boolean isLoading = false;
     private int limit = 20;
@@ -34,7 +34,7 @@ public class PoemListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        poemAdapter = new PoemAdapter(new ArrayList<>());
+        poemAdapter = new TitleAdapter(new ArrayList<>());
         recyclerView.setAdapter(poemAdapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

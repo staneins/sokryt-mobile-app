@@ -3,7 +3,7 @@ package com.example.sokrytmobileapp;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import com.example.sokrytmobileapp.ui.PoemListFragment;
+import com.example.sokrytmobileapp.ui.TitleListFragment;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PoemListFragment poemListFragment = new PoemListFragment();
+        TitleListFragment poemListFragment = new TitleListFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, poemListFragment);
         transaction.commit();

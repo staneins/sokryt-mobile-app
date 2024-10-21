@@ -1,6 +1,7 @@
 package com.example.sokrytmobileapp.repository;
 
 import android.app.Application;
+import android.text.Html;
 import android.util.Log;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -89,7 +90,7 @@ public class PoemRepository {
                     Integer nid = poemJson.getNid();
                     Integer revisionUid = poemJson.getRevisionUid();
                     String title = poemJson.getTitle();
-                    String body = poemJson.getBody();
+                    String body = Html.fromHtml(poemJson.getBody()).toString();
                     if (nid != null && title != null && body != null) {
 
                         if (body != null) {
