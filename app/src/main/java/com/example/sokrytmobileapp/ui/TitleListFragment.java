@@ -1,12 +1,17 @@
 package com.example.sokrytmobileapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,8 +45,10 @@ public class TitleListFragment extends Fragment {
         recyclerView.setAdapter(poemAdapter);
 
         AppCompatImageButton loadPoemsButton = view.findViewById(R.id.load_poems_button);
+
         loadPoemsButton.setOnClickListener(v -> {
             poemRepository.loadPoems();
+            v.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.refresh_button_animation));
         });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -60,8 +67,6 @@ public class TitleListFragment extends Fragment {
                 }
             }
         });
-
-//        poemRepository.loadPoems();
         loadPoems();
 
         return view;
@@ -87,7 +92,7 @@ public class TitleListFragment extends Fragment {
         if (poems != null && !poems.isEmpty()) {
             poemAdapter.addPoems(poems);
             Log.d("PoemListFragment", "Загружено " + poems.size() + " стихов");
-            offset += limit;
+            offset += poems.size();
         } else {
             allDataLoaded = true;
         }

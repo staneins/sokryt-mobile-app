@@ -1,6 +1,9 @@
 package com.example.sokrytmobileapp.repository;
 
 import android.app.Application;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,8 +24,10 @@ import static android.content.ContentValues.TAG;
 
 public class PoemRepository {
     private final PoemDao poemDao;
+    private final Application application;
 
     public PoemRepository(Application application) {
+        this.application = application;
         PoemDatabase db = PoemDatabase.getDatabase(application);
         poemDao = db.poemDao();
     }
@@ -48,10 +53,9 @@ public class PoemRepository {
 
     public void loadPoems() {
 
-//        if (allPoems.getValue() != null && !allPoems.getValue().isEmpty()) {
-//            Log.d(TAG, "Стихи уже загружены из базы данных");
-//            return;
-//        }
+        new Handler(Looper.getMainLooper()).post(() ->
+                Toast.makeText(application, "Обновляем стихи", Toast.LENGTH_LONG).show()
+        );
 
         String url = "https://sokryt.ru/json/stihi";
         OkHttpClient client = new OkHttpClient();
@@ -66,6 +70,9 @@ public class PoemRepository {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "Ошибка обращения к адресу", e);
+                new Handler(Looper.getMainLooper()).post(() ->
+                        Toast.makeText(application, "Ошибка обновления стихов", Toast.LENGTH_LONG).show()
+                );
             }
 
             @Override
@@ -74,7 +81,9 @@ public class PoemRepository {
                     String jsonString = response.body().string();
                     loadPoemsFromJson(jsonString);
                     Log.d(TAG, "Обращение прошло успешно. Длина ответа: " + jsonString.length());
-//                    Toast.makeText(getContext(), "Нет доступных стихов", Toast.LENGTH_SHORT).show();
+                    new Handler(Looper.getMainLooper()).post(() ->
+                            Toast.makeText(application, "Стихи обновлены", Toast.LENGTH_LONG).show()
+                    );
                 } else {
                     Log.e(TAG, "Ошибка обращения. Код: " + response.code());
                 }
