@@ -13,11 +13,11 @@ import com.example.sokrytmobileapp.data.Poem;
 
 import java.util.List;
 
-public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.PoemViewHolder> {
+public class PoemAdapter extends RecyclerView.Adapter<PoemAdapter.PoemViewHolder> {
 
     private List<Poem> poems;
 
-    public TitleAdapter(List<Poem> poems) {
+    public PoemAdapter(List<Poem> poems) {
         this.poems = poems;
     }
 
@@ -70,5 +70,8 @@ public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.PoemViewHold
                 .addToBackStack(null)
                 .commit();
     }
-
+    public void addPoemsToTop(List<Poem> newPoems) {
+        this.poems.addAll(0, newPoems);
+        notifyItemRangeInserted(0, newPoems.size());
+    }
 }

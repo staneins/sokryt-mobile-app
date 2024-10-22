@@ -3,7 +3,6 @@ package com.example.sokrytmobileapp.repository;
 import android.app.Application;
 import android.text.Html;
 import android.util.Log;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import com.example.sokrytmobileapp.data.Poem;
 import com.example.sokrytmobileapp.data.PoemDao;
@@ -29,6 +28,10 @@ public class PoemRepository {
 
     public LiveData<List<Poem>> getPoemsWithPagination(int offset, int limit) {
         return poemDao.getAllPoems(offset, limit);
+    }
+
+    public LiveData<List<Poem>> getPoemsBeforeOffset(int offset) {
+        return poemDao.getAllPoems(0, offset);
     }
 
     public void insert(final Poem poem) {

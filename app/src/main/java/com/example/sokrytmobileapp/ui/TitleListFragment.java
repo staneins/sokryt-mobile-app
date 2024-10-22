@@ -18,7 +18,7 @@ import java.util.List;
 
 public class TitleListFragment extends Fragment {
     private RecyclerView recyclerView;
-    private TitleAdapter poemAdapter;
+    private PoemAdapter poemAdapter;
     private PoemRepository poemRepository;
     private boolean isLoading = false;
     private int limit = 20;
@@ -34,7 +34,7 @@ public class TitleListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        poemAdapter = new TitleAdapter(new ArrayList<>());
+        poemAdapter = new PoemAdapter(new ArrayList<>());
         recyclerView.setAdapter(poemAdapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -46,6 +46,11 @@ public class TitleListFragment extends Fragment {
                     isLoading = true;
                     loadPoems();
                 }
+
+                if (!isLoading && layoutManager != null && layoutManager.findFirstVisibleItemPosition() == 0) {
+                    isLoading = true;
+                    loadPreviousPoems();
+                }
             }
         });
 
@@ -55,9 +60,20 @@ public class TitleListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadPoems();
+    }
+
     private void loadPoems() {
         if (allDataLoaded) return;
         poemRepository.getPoemsWithPagination(offset, limit).observe(getViewLifecycleOwner(), this::handlePoemData);
+    }
+
+    private void loadPreviousPoems() {
+        if (allDataLoaded) return;
+        poemRepository.getPoemsBeforeOffset(offset).observe(getViewLifecycleOwner(), this::handlePreviousPoemData);
     }
 
     private void handlePoemData(List<Poem> poems) {
@@ -67,6 +83,15 @@ public class TitleListFragment extends Fragment {
             offset += limit;
         } else {
             allDataLoaded = true;
+        }
+        isLoading = false;
+    }
+
+    private void handlePreviousPoemData(List<Poem> poems) {
+        if (poems != null && !poems.isEmpty()) {
+            poemAdapter.addPoemsToTop(poems);
+            Log.d("PoemListFragment", "Загружено " + poems.size() + " предыдущих стихов");
+            offset -= poems.size();
         }
         isLoading = false;
     }
