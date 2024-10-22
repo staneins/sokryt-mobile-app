@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +39,11 @@ public class TitleListFragment extends Fragment {
         poemAdapter = new PoemAdapter(new ArrayList<>());
         recyclerView.setAdapter(poemAdapter);
 
+        AppCompatImageButton loadPoemsButton = view.findViewById(R.id.load_poems_button);
+        loadPoemsButton.setOnClickListener(v -> {
+            poemRepository.loadPoems();
+        });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -54,7 +61,7 @@ public class TitleListFragment extends Fragment {
             }
         });
 
-        poemRepository.loadPoems();
+//        poemRepository.loadPoems();
         loadPoems();
 
         return view;

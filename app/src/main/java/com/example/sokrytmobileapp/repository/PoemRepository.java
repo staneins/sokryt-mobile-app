@@ -3,6 +3,7 @@ package com.example.sokrytmobileapp.repository;
 import android.app.Application;
 import android.text.Html;
 import android.util.Log;
+import android.widget.Toast;
 import androidx.lifecycle.LiveData;
 import com.example.sokrytmobileapp.data.Poem;
 import com.example.sokrytmobileapp.data.PoemDao;
@@ -73,6 +74,7 @@ public class PoemRepository {
                     String jsonString = response.body().string();
                     loadPoemsFromJson(jsonString);
                     Log.d(TAG, "Обращение прошло успешно. Длина ответа: " + jsonString.length());
+//                    Toast.makeText(getContext(), "Нет доступных стихов", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "Ошибка обращения. Код: " + response.code());
                 }
