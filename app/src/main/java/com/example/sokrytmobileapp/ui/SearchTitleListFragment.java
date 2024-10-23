@@ -1,5 +1,6 @@
 package com.example.sokrytmobileapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,7 +23,9 @@ import com.example.sokrytmobileapp.repository.PoemRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TitleListFragment extends Fragment {
+public class SearchTitleListFragment extends Fragment {
+    private static final String ARG_QUERY = "search_query";
+    private String query;
     private RecyclerView recyclerView;
     private PoemAdapter poemAdapter;
     private PoemRepository poemRepository;
@@ -31,24 +34,34 @@ public class TitleListFragment extends Fragment {
     private int offset = 0;
     private boolean allDataLoaded = false;
 
+    public static SearchTitleListFragment newInstance(String query, PoemAdapter adapter) {
+        SearchTitleListFragment fragment = new SearchTitleListFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_QUERY, query);
+        fragment.setArguments(args);
+        fragment.poemAdapter = adapter; // Передача адаптера
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            query = getArguments().getString(ARG_QUERY);
+        }
+        poemRepository = new PoemRepository(requireActivity().getApplication());
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_poem_list, container, false);
+        View view = inflater.inflate(R.layout.activity_search_results, container, false);
 
         poemRepository = new PoemRepository(requireActivity().getApplication());
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        poemAdapter = new PoemAdapter(new ArrayList<>());
         recyclerView.setAdapter(poemAdapter);
-
-        AppCompatImageButton loadPoemsButton = view.findViewById(R.id.load_poems_button);
-
-        loadPoemsButton.setOnClickListener(v -> {
-            poemRepository.loadPoems();
-            v.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.refresh_button_animation));
-        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -79,18 +92,17 @@ public class TitleListFragment extends Fragment {
 
     private void loadPoems() {
         if (allDataLoaded) return;
-        poemRepository.getPoemsWithPagination(offset, limit).observe(getViewLifecycleOwner(), this::handlePoemData);
+        poemRepository.getSearchedPoemsWithPagination(offset, limit, query).observe(getViewLifecycleOwner(), this::handlePoemData);
     }
 
     private void loadPreviousPoems() {
         if (allDataLoaded) return;
-        poemRepository.getPoemsBeforeOffset(offset).observe(getViewLifecycleOwner(), this::handlePreviousPoemData);
+        poemRepository.getSearchedPoemsBeforeOffset(offset, query).observe(getViewLifecycleOwner(), this::handlePreviousPoemData);
     }
 
     private void handlePoemData(List<Poem> poems) {
         if (poems != null && !poems.isEmpty()) {
             poemAdapter.addPoems(poems);
-            Log.d("PoemListFragment", "Загружено " + poems.size() + " стихов");
             offset += poems.size();
         } else {
             allDataLoaded = true;
@@ -107,5 +119,3 @@ public class TitleListFragment extends Fragment {
         isLoading = false;
     }
 }
-
-

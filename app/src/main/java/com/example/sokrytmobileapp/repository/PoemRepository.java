@@ -1,7 +1,6 @@
 package com.example.sokrytmobileapp.repository;
 
 import android.app.Application;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
@@ -30,6 +29,18 @@ public class PoemRepository {
         this.application = application;
         PoemDatabase db = PoemDatabase.getDatabase(application);
         poemDao = db.poemDao();
+    }
+
+    public LiveData<List<Poem>> searchPoems(String query) {
+        return poemDao.searchPoems("%" + query + "%");
+    }
+
+    public LiveData<List<Poem>> getSearchedPoemsWithPagination(int offset, int limit, String query) {
+        return poemDao.getAllSearchedPoems(offset, limit, query);
+    }
+
+    public LiveData<List<Poem>> getSearchedPoemsBeforeOffset(int offset, String query) {
+        return poemDao.getAllSearchedPoems(0, offset, query);
     }
 
     public LiveData<List<Poem>> getPoemsWithPagination(int offset, int limit) {

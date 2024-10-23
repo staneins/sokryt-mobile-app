@@ -83,6 +83,12 @@ public class PoemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    public void updatePoemList(List<Poem> newPoemList) {
+        this.poems.clear();
+        this.poems.addAll(newPoemList);
+        notifyDataSetChanged();
+    }
+
     public void addPoems(List<Poem> newPoems) {
         if (poems.isEmpty()) {
             poems.clear();
