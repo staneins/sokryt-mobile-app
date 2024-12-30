@@ -4,7 +4,7 @@
     <PreferenceCategory android:title="Настройки">
         <SeekBarPreference
                 android:key="font_size"
-                android:title="Размер шрифта"
+                android:title="Размер шрифта стихов"
                 android:defaultValue="18"
                 android:min="14"
                 android:max="40" />

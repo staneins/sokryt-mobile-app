@@ -5,4 +5,8 @@
     <string name="search_hint">Введите название стиха</string>
     <string name="settings">Настройки</string>
     <string name="about">О приложении</string>
+    <string name="about_info">Это приложение единоверческого интернет-портала «Сокрытая Русь» \n\n
+        Приложение находится на стадии альфа-тестирования \n\n
+        Ошибки приложения, замечания, предложения направляйте по электронной почте: \n\n
+        ukhtomsky.society@gmail.com</string>
 </resources>

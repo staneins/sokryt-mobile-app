@@ -32,11 +32,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         if (backButtonPreference != null) {
             backButtonPreference.setOnPreferenceClickListener(preference -> {
-                // Переход на главный экран при клике
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                getActivity().finishAffinity(); // Завершаем все активности в стеке
+                getActivity().finishAffinity();
                 return true;
             });
         }
