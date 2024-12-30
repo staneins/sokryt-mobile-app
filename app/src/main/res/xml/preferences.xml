@@ -1,0 +1,19 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="Настройки">
+        <SeekBarPreference
+                android:key="font_size"
+                android:title="Размер шрифта"
+                android:defaultValue="18"
+                android:min="14"
+                android:max="40" />
+    </PreferenceCategory>
+
+    <Preference
+            android:key="back_button_preference"
+            android:title="Назад"
+            android:summary="Нажмите для возвращения на главный экран" />
+
+</PreferenceScreen>
+

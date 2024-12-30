@@ -90,9 +90,11 @@ public class PoemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void updatePoemList(List<Poem> newPoemList) {
+        if (newPoemList != null) {
         this.poems.clear();
         this.poems.addAll(newPoemList);
         notifyDataSetChanged();
+        }
     }
 
     public void addPoems(List<Poem> newPoems) {
@@ -101,9 +103,11 @@ public class PoemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             notifyDataSetChanged();
         }
 
+        if(newPoems != null) {
         int initialSize = this.poems.size();
         this.poems.addAll(newPoems);
         notifyItemRangeInserted(initialSize, newPoems.size());
+        }
     }
 
     private void setOnTitleClickListener(@NonNull PoemViewHolder holder, Poem poem) {

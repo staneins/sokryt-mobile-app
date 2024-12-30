@@ -1,19 +1,23 @@
 package com.example.sokrytmobileapp;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import com.example.sokrytmobileapp.ui.SettingsFragment;
 import com.example.sokrytmobileapp.ui.TitleListFragment;
 import androidx.appcompat.widget.SearchView;
 
@@ -80,9 +84,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FavouriteResultsActivity.class);
             startActivity(intent);
             return true;
+        } else if (item.getItemId() == R.id.action_settings) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new SettingsFragment())
+                    .commit();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }
