@@ -40,8 +40,11 @@ public class FavouriteListFragment extends Fragment {
 
     private void loadFavouritePoems() {
         poemRepository.getFavouritePoems().observe(getViewLifecycleOwner(), poems -> {
-            if (poems != null) {
+            if (poems != null && !poems.isEmpty()) {
                 poemAdapter.updatePoemList(poems);
+                poemAdapter.setSearchEmpty(false);
+            } else {
+                poemAdapter.setSearchEmpty(true);
             }
         });
     }

@@ -17,10 +17,12 @@ public class PoemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Poem> poems;
     private boolean isLoadingData;
+    private boolean isSearchEmpty;
 
     private final int VIEW_TYPE_EMPTY = 0;
     private final int VIEW_TYPE_POEM = 1;
     private final String NO_POEMS_IN_DB = "Нажмите на кнопку загрузки стихов\n\nРекомендуется перезагрузить приложение после первой загрузки";
+    private final String NO_POEMS_IN_SEARCH = "Ничего не найдено";
 
     public PoemAdapter(List<Poem> poems) {
         this.poems = poems;
@@ -51,7 +53,11 @@ public class PoemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             poemViewHolder.title.setText(poem.getTitle());
             setOnTitleClickListener(poemViewHolder, poem);
         } else if (holder instanceof EmptyViewHolder) {
-            ((EmptyViewHolder)holder).title.setText(NO_POEMS_IN_DB);
+            if (isSearchEmpty) {
+                ((EmptyViewHolder) holder).title.setText(NO_POEMS_IN_SEARCH);
+            } else {
+                ((EmptyViewHolder) holder).title.setText(NO_POEMS_IN_DB);
+            }
         }
     }
 
@@ -117,5 +123,11 @@ public class PoemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.poems.addAll(0, newPoems);
         notifyItemRangeInserted(0, newPoems.size());
     }
+
+    public void setSearchEmpty(boolean isEmpty) {
+        this.isSearchEmpty = isEmpty;
+        notifyDataSetChanged();
+    }
+
 
 }
