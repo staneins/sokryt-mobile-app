@@ -25,4 +25,7 @@ public interface PoemDao {
 
     @Query("SELECT * FROM poems WHERE title LIKE :query ORDER BY title LIMIT :limit OFFSET :offset")
     LiveData<List<Poem>> getAllSearchedPoems(int offset, int limit, String query);
+
+    @Query("SELECT * FROM poems WHERE is_favourite = 1")
+    LiveData<List<Poem>> getFavouritePoems();
 }

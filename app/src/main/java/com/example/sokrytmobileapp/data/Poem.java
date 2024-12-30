@@ -4,28 +4,34 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "poems")
-public class Poem {
+public class Poem implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
 
     @ColumnInfo(name = "nid")
-    public Integer nid;
+    private Integer nid;
 
     @ColumnInfo(name = "revision_uid")
-    public Integer revisionUid;
+    private Integer revisionUid;
 
     @ColumnInfo(name = "title")
-    public String title;
+    private String title;
 
     @ColumnInfo(name = "body")
-    public String body;
+    private String body;
+
+    @ColumnInfo(name = "is_favourite")
+    private Boolean isFavourite;
 
     public Poem(Integer nid, Integer revisionUid, String title, String body) {
         this.nid = nid;
         this.revisionUid = revisionUid;
         this.title = title;
         this.body = body;
+        this.isFavourite = false;
     }
 
     public Poem() {
@@ -37,6 +43,14 @@ public class Poem {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Boolean getFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(Boolean favourite) {
+        isFavourite = favourite;
     }
 
     public Integer getNid() {

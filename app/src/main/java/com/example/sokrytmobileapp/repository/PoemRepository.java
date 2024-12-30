@@ -51,11 +51,15 @@ public class PoemRepository {
         return poemDao.getAllPoems(0, offset);
     }
 
+    public LiveData<List<Poem>> getFavouritePoems() {
+        return poemDao.getFavouritePoems();
+    }
+
     public void insert(final Poem poem) {
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
                 poemDao.insertPoem(poem);
-                Log.d("PoemRepository", "Стих успешно вставлен: " + poem.title);
+                Log.d("PoemRepository", "Стих успешно вставлен: " + poem.getTitle());
             } catch (Exception e) {
                 Log.e("PoemRepository", "Ошибка при вставке стиха: " + e.getMessage());
             }

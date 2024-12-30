@@ -39,7 +39,7 @@ public class SearchTitleListFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString(ARG_QUERY, query);
         fragment.setArguments(args);
-        fragment.poemAdapter = adapter; // Передача адаптера
+        fragment.poemAdapter = adapter;
         return fragment;
     }
 

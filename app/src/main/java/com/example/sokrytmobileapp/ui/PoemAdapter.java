@@ -4,12 +4,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.sokrytmobileapp.MainActivity;
 import com.example.sokrytmobileapp.R;
 import com.example.sokrytmobileapp.data.Poem;
 
@@ -48,8 +46,10 @@ public class PoemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (holder instanceof PoemViewHolder) {
             Poem poem = poems.get(position);
-            ((PoemViewHolder) holder).title.setText(poem.title);
-            setOnTitleClickListener((PoemViewHolder) holder, poem);
+            PoemViewHolder poemViewHolder = (PoemViewHolder) holder;
+
+            poemViewHolder.title.setText(poem.getTitle());
+            setOnTitleClickListener(poemViewHolder, poem);
         } else if (holder instanceof EmptyViewHolder) {
             ((EmptyViewHolder)holder).title.setText(NO_POEMS_IN_DB);
         }
@@ -66,7 +66,7 @@ public class PoemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     static class PoemViewHolder extends RecyclerView.ViewHolder {
-        private final TextView title;
+        TextView title;
 
         public PoemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,11 +101,11 @@ public class PoemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void setOnTitleClickListener(@NonNull PoemViewHolder holder, Poem poem) {
-        holder.title.setOnClickListener(view -> openPoemBodyFragment(view, poem.body));
+        holder.title.setOnClickListener(view -> openPoemBodyFragment(view, poem));
     }
 
-    private void openPoemBodyFragment(View view, String poemBody) {
-        Fragment bodyFragment = BodyFragment.newInstance(poemBody);
+    private void openPoemBodyFragment(View view, Poem poem) {
+        Fragment bodyFragment = BodyFragment.newInstance(poem);
 
         ((FragmentActivity) view.getContext()).getSupportFragmentManager()
                 .beginTransaction()
